@@ -18,7 +18,7 @@ using Windows.Storage;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace JsonVersioningGenerator
+namespace UWPVersioningToolkit
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -26,7 +26,7 @@ namespace JsonVersioningGenerator
     public sealed partial class MainPage : Page
     {
         public ObservableCollection<VersionLog> versions = new ObservableCollection<VersionLog>();
-        bool loadedfromfile = false;
+        private bool loadedfromfile = false;
 
         public MainPage()
         {
@@ -60,7 +60,7 @@ namespace JsonVersioningGenerator
                 source.Document.GetText(Windows.UI.Text.TextGetOptions.None, out value);
                 var ending = value.Substring(value.Length - 1);
                 if (ending == "\r") value = value.Substring(0, value.Length - 1);
-                model.log = value;
+                model.Log = value;
             }
         }
 
@@ -75,14 +75,13 @@ namespace JsonVersioningGenerator
                 Bindings.Update();
             }
             catch { await new ContentDialog { Title = "Error", Content = new TextBlock { Text = "Couldn't load Changlog Json" }, PrimaryButtonText = "OK" }.ShowAsync(); }
-            
         }
 
         private void Versionsarea_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             if (loadedfromfile)
             {
-                ((args.ItemContainer.ContentTemplateRoot as StackPanel).Children[2] as RichEditBox).Document.SetText(Windows.UI.Text.TextSetOptions.None, (args.Item as VersionLog).log);
+                ((args.ItemContainer.ContentTemplateRoot as StackPanel).Children[2] as RichEditBox).Document.SetText(Windows.UI.Text.TextSetOptions.None, (args.Item as VersionLog).Log);
             }
             if (sender.ItemsPanelRoot.Children.Count == versions.Count) loadedfromfile = false;
         }

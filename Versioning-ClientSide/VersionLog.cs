@@ -1,4 +1,4 @@
-﻿namespace JsonVersioningGenerator
+﻿namespace UWPVersioningToolkit
 {
     public class VersionLog
     {
@@ -6,6 +6,6 @@
         public uint Minor { get; set; }
         public uint Build { get; set; }
         public uint Revision { get; set; }
-        public string log { get; set; }
+        public string Log { get; set; }
     }
 }
