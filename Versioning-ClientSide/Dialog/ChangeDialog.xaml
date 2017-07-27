@@ -1,0 +1,47 @@
+﻿<ContentDialog
+    x:Class="UWPVersioningToolkit.Dialog.ChangeDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:commtools="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local="using:UWPVersioningToolkit.Dialog"
+    xmlns:viewmodels="using:UWPVersioningToolkit.ViewModels"
+    FullSizeDesired="True"
+    mc:Ignorable="d"
+    Title="{x:Bind Strings.Changelog}"
+    PrimaryButtonText="{x:Bind Strings.Close}">
+
+    <Grid x:Name="Maingrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid x:Name="Spacer" Width="400" />
+        <ScrollViewer>
+            <StackPanel>
+                <TextBlock x:Name="CurrentVersionTitle"
+                           Text="{x:Bind Strings.NewInVersion}"
+                           Style="{StaticResource SubheaderTextBlockStyle}"
+                           HorizontalAlignment="Left" />
+                <local:VersionLogUI Viewmodel="{x:Bind CurrentVersion, Mode=OneWay}" />
+                <commtools:Expander Header="{x:Bind Strings.OlderVersions}"
+                                    VerticalContentAlignment="Stretch"
+                                    VerticalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind OlderVersions, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel VerticalAlignment="Stretch" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:VersionModel">
+                                <commtools:Expander Header="{x:Bind VersionName, Mode=OneWay}"
+                                                    VerticalContentAlignment="Stretch"
+                                                    VerticalAlignment="Stretch">
+                                    <local:VersionLogUI Viewmodel="{x:Bind}" VerticalAlignment="Stretch" />
+                                </commtools:Expander>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </commtools:Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ContentDialog>

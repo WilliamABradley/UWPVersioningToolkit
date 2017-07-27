@@ -103,14 +103,42 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Dialog\ChangeDialog.xaml.cs">
+      <DependentUpon>ChangeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\VersionLogUI.xaml.cs">
+      <DependentUpon>VersionLogUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChangeDialogHandler.cs" />
+    <Compile Include="Models\VersionCheck.cs" />
+    <Compile Include="Models\V1VersionLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VersionLog.cs" />
+    <Compile Include="VersionHelper.cs" />
+    <Compile Include="Models\VersionLog.cs" />
+    <Compile Include="ViewModels\ChangelogStrings.cs" />
+    <Compile Include="ViewModels\VersionModel.cs" />
     <EmbeddedResource Include="Properties\Versioning_ClientSide.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>5.3.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>1.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Dialog\ChangeDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialog\VersionLogUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

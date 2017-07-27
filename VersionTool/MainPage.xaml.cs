@@ -15,6 +15,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 using Windows.Storage;
+using UWPVersioningToolkit.Models;
+using UWPVersioningToolkit.ViewModels;
+using UWPVersioningToolkit.Views;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,65 +29,41 @@ namespace UWPVersioningToolkit
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public ObservableCollection<VersionLog> versions = new ObservableCollection<VersionLog>();
-        private bool loadedfromfile = false;
+        public VersioningSession Viewmodel { get { return VersioningSession.Current; } }
+        private SystemNavigationManager Nav = SystemNavigationManager.GetForCurrentView();
 
         public MainPage()
         {
             this.InitializeComponent();
+            this.Loaded += MainPage_Loaded;
+            Viewmodel.EditRequested += Viewmodel_EditRequested;
+            Nav.BackRequested += Nav_BackRequested;
         }
 
-        private void CreateVersion_Click(object sender, RoutedEventArgs e)
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            versions.Insert(0, new VersionLog());
+            Frame.Navigated += Frame_Navigated;
         }
 
-        private async void Convert_Click(object sender, RoutedEventArgs e)
+        private void Nav_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            var viewer = new ScrollViewer();
-            viewer.Content = new TextBox
-            {
-                Text = JsonConvert.SerializeObject(versions.OrderByDescending(k => k.Major).ThenByDescending(k => k.Minor).ThenByDescending(k => k.Build).ThenByDescending(k => k.Revision)),
-                Height = 200,
-                TextWrapping = TextWrapping.Wrap
-            };
-            await new ContentDialog { Title = "Processed Json Changelog", Content =  viewer, PrimaryButtonText = "OK" }.ShowAsync();
+            if (Frame.CanGoBack) Frame.GoBack();
         }
 
-        private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
-            var source = sender as RichEditBox;
-            var model = source.DataContext as VersionLog;
-            if(model != null)
-            {
-                string value = "";
-                source.Document.GetText(Windows.UI.Text.TextGetOptions.None, out value);
-                var ending = value.Substring(value.Length - 1);
-                if (ending == "\r") value = value.Substring(0, value.Length - 1);
-                model.Log = value;
-            }
+            Nav.AppViewBackButtonVisibility = Frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
-        private async void LoadJson_Click(object sender, RoutedEventArgs e)
+        private void Viewmodel_EditRequested(object sender, VersionEditor e)
         {
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();
-            picker.FileTypeFilter.Add(".json");
-            try
-            {
-                versions = new ObservableCollection<VersionLog>(JsonConvert.DeserializeObject<List<VersionLog>>(await FileIO.ReadTextAsync((await picker.PickSingleFileAsync()))).OrderByDescending(k => k.Major).ThenByDescending(k => k.Minor).ThenByDescending(k => k.Build).ThenByDescending(k => k.Revision));
-                loadedfromfile = true;
-                Bindings.Update();
-            }
-            catch { await new ContentDialog { Title = "Error", Content = new TextBlock { Text = "Couldn't load Changlog Json" }, PrimaryButtonText = "OK" }.ShowAsync(); }
+            Frame.Navigate(typeof(Editor), e);
         }
 
-        private void Versionsarea_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private async void VersionsArea_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (loadedfromfile)
-            {
-                ((args.ItemContainer.ContentTemplateRoot as StackPanel).Children[2] as RichEditBox).Document.SetText(Windows.UI.Text.TextSetOptions.None, (args.Item as VersionLog).Log);
-            }
-            if (sender.ItemsPanelRoot.Children.Count == versions.Count) loadedfromfile = false;
+            var model = e.ClickedItem as VersionModel;
+            var log = await Viewmodel.Edit(model);
         }
     }
 }

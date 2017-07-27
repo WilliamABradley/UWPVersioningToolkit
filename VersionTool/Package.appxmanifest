@@ -3,7 +3,7 @@
   <Identity Name="c1708b6b-b53d-4710-be76-7f2e76044a42" Publisher="CN=William" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="c1708b6b-b53d-4710-be76-7f2e76044a42" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>JsonVersioningGenerator</DisplayName>
+    <DisplayName>UWPVersioningToolkit-VersionTool</DisplayName>
     <PublisherDisplayName>William</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UWPVersioningToolkit.App">
-      <uap:VisualElements DisplayName="VersionTool" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="A tool to create Versions for a UWP App." BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="UWP Versioning Toolkit Version Tool" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="A tool to create Versions for a UWP App." BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />

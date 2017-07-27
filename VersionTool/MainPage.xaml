@@ -5,40 +5,52 @@
     xmlns:local="using:UWPVersioningToolkit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:UWPVersioningToolkit.ViewModels"
+    xmlns:models="using:UWPVersioningToolkit.Models"
+    xmlns:commtools="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Width="120">
-            <Button Content="New Version" Height="80" HorizontalAlignment="Stretch" Click="CreateVersion_Click" Margin="0,0,0,2"/>
-            <Button Content="Convert" Height="80" HorizontalAlignment="Stretch" Click="Convert_Click" Margin="0,0,0,2"/>
-            <Button Content="Load" Height="80" HorizontalAlignment="Stretch" Click="LoadJson_Click" Margin="0,0,0,2"/>
-        </StackPanel>
-        <ListView x:Name="Versionsarea" ItemsSource="{x:Bind versions, Mode=OneWay}" Grid.Column="1" HorizontalContentAlignment="Stretch" ContainerContentChanging="Versionsarea_ContainerContentChanging">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Margin" Value="0"/>
-                    <Setter Property="Padding" Value="0"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:VersionLog">
-                    <StackPanel Background="#4C939393" Margin="0,0,0,5" Padding="10">
-                        <TextBlock Text="Version Number:"/>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Header="Major" Text="{x:Bind Major, Mode=TwoWay, FallbackValue=0}" Width="10" HorizontalAlignment="Left" Margin="0,0,5,0"/>
-                            <TextBox Header="Minor" Text="{x:Bind Minor, Mode=TwoWay, FallbackValue=0}" Width="10" HorizontalAlignment="Left" Margin="0,0,5,0"/>
-                            <TextBox Header="Build" Text="{x:Bind Build, Mode=TwoWay, FallbackValue=0}" Width="10" HorizontalAlignment="Left" Margin="0,0,5,0"/>
-                            <TextBox Header="Revision" Text="{x:Bind Revision, Mode=TwoWay, FallbackValue=0}" Width="10" HorizontalAlignment="Left" Margin="0,0,5,0"/>
-                        </StackPanel>
-                        <RichEditBox Header="Changelog:" Height="250" TextWrapping="Wrap" TextChanged="RichEditBox_TextChanged"/>
-                    </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <commtools:Menu Background="{ThemeResource ContentDialogBackground}">
+            <commtools:MenuItem Header="File">
+                <MenuFlyoutItem Text="New"
+                                Click="{x:Bind Viewmodel.Create}" />
+                <MenuFlyoutItem Text="Open"
+                                Click="{x:Bind Viewmodel.Load}" />
+                <MenuFlyoutItem Text="Save"
+                                Click="{x:Bind Viewmodel.Save}"
+                                IsEnabled="{x:Bind Viewmodel.HasData, Mode=OneWay}" />
+            </commtools:MenuItem>
+            <commtools:MenuItem Header="Versions">
+                <MenuFlyoutItem Text="Add"
+                                Click="{x:Bind Viewmodel.AddVersion}" />
+                <MenuFlyoutItem Text="Get Json"
+                                Click="{x:Bind Viewmodel.DisplayJson}" />
+                <MenuFlyoutItem Text="Preview"
+                                Click="{x:Bind Viewmodel.Preview}"
+                                IsEnabled="{x:Bind Viewmodel.HasData, Mode=OneWay}" />
+            </commtools:MenuItem>
+        </commtools:Menu>
+        <GridView x:Name="VersionsArea"
+                  ItemsSource="{x:Bind Viewmodel.Versions, Mode=OneWay}"
+                  Grid.Row="1"
+                  SelectionMode="Single"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  IsItemClickEnabled="True"
+                  ItemClick="VersionsArea_ItemClick"
+                  HorizontalContentAlignment="Stretch">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="viewmodels:VersionModel">
+                    <Grid Width="200" Height="100" Background="#66FFFFFF">
+                        <TextBlock Text="{x:Bind VersionName, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </GridView.ItemTemplate>
+        </GridView>
     </Grid>
 </Page>
