@@ -12,7 +12,6 @@
 
 namespace TextToolbarTemp.TextToolbarFormats.MarkDown
 {
-    using System;
     using TextToolbarTemp.TextToolbarButtons;
     using TextToolbarTemp.TextToolbarFormats;
 

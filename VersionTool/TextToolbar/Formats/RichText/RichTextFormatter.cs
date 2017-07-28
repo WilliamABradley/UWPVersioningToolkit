@@ -12,7 +12,6 @@
 
 namespace TextToolbarTemp.TextToolbarFormats.RichText
 {
-    using System;
     using TextToolbarTemp.TextToolbarButtons;
     using Windows.System;
     using Windows.UI.Text;

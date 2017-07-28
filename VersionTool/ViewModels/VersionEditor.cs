@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UWPVersioningToolkit;
+﻿using System.Threading.Tasks;
 using UWPVersioningToolkit.Models;
 
 namespace UWPVersioningToolkit.ViewModels
