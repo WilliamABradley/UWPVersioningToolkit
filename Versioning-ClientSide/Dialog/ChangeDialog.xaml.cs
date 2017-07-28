@@ -16,9 +16,6 @@ namespace UWPVersioningToolkit.Dialog
 {
     public sealed partial class ChangeDialog : ContentDialog
     {
-        public ChangelogStrings Strings { get { return VersionHelper.Strings; } }
-
-        private List<VersionModel> OlderVersions = new List<VersionModel>();
         public VersionModel CurrentVersion { get; private set; }
 
         public ChangeDialog(List<VersionModel> Versions = null)
@@ -35,7 +32,7 @@ namespace UWPVersioningToolkit.Dialog
                 OlderVersions = Versions.Skip(1).ToList();
             }
 
-            CurrentVersionTitle.Text = CurrentVersionTitle.Text += $" ({CurrentVersion.VersionName})";
+            CurrentVersionTitle.Text = Strings.NewInVersion + $" ({CurrentVersion.VersionName})";
             this.Closing += delegate
             {
                 VersionHelper.DialogHandler.OnDialogClosing(this);
@@ -59,6 +56,10 @@ namespace UWPVersioningToolkit.Dialog
             catch (Exception ex) { if (!VersionHelper.CatchExceptions) throw ex; }
         }
 
+        public ChangelogStrings Strings { get { return VersionHelper.Strings; } }
+        public bool HasOlderVersions { get { return OlderVersions.Any(); } }
+
         public static StorageFolder ChangelogLocation = Package.Current.InstalledLocation;
+        private List<VersionModel> OlderVersions = new List<VersionModel>();
     }
 }

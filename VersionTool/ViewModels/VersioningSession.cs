@@ -148,7 +148,7 @@ namespace UWPVersioningToolkit.ViewModels
         private string GetJson()
         {
             var raw = Versions.Select(item => item.Version).OrderByDescending(k => k.Major).ThenByDescending(k => k.Minor).ThenByDescending(k => k.Build).ThenByDescending(k => k.Revision);
-            return JsonConvert.SerializeObject(raw);
+            return JsonConvert.SerializeObject(raw, Formatting.Indented);
         }
 
         public async void DisplayJson()
@@ -157,6 +157,8 @@ namespace UWPVersioningToolkit.ViewModels
             {
                 Content = new TextBox
                 {
+                    AcceptsReturn = true,
+                    IsReadOnly = true,
                     Text = GetJson(),
                     Height = 200,
                     TextWrapping = TextWrapping.Wrap

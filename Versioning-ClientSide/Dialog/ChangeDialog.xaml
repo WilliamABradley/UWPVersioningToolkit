@@ -13,18 +13,17 @@
     PrimaryButtonText="{x:Bind Strings.Close}">
 
     <Grid x:Name="Maingrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        <Grid x:Name="Spacer" Width="400" />
         <ScrollViewer>
             <StackPanel>
                 <TextBlock x:Name="CurrentVersionTitle"
-                           Text="{x:Bind Strings.NewInVersion}"
                            Style="{StaticResource SubheaderTextBlockStyle}"
                            HorizontalAlignment="Left" />
                 <local:VersionLogUI Viewmodel="{x:Bind CurrentVersion, Mode=OneWay}" />
                 <commtools:Expander Header="{x:Bind Strings.OlderVersions}"
-                                    VerticalContentAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
-                    <ItemsControl ItemsSource="{x:Bind OlderVersions, Mode=OneWay}">
+                                    Visibility="{x:Bind HasOlderVersions, Mode=OneWay}"
+                                    HorizontalContentAlignment="Stretch"
+                                    HorizontalAlignment="Stretch">
+                    <ItemsControl ItemsSource="{x:Bind OlderVersions, Mode=OneWay}" Margin="10,0">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel VerticalAlignment="Stretch" />
@@ -33,9 +32,9 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:VersionModel">
                                 <commtools:Expander Header="{x:Bind VersionName, Mode=OneWay}"
-                                                    VerticalContentAlignment="Stretch"
-                                                    VerticalAlignment="Stretch">
-                                    <local:VersionLogUI Viewmodel="{x:Bind}" VerticalAlignment="Stretch" />
+                                                    HorizontalContentAlignment="Stretch"
+                                                    HorizontalAlignment="Stretch">
+                                    <local:VersionLogUI Viewmodel="{x:Bind}" HorizontalAlignment="Stretch" />
                                 </commtools:Expander>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

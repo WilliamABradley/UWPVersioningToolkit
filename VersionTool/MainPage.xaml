@@ -35,22 +35,6 @@
                                 IsEnabled="{x:Bind Viewmodel.HasData, Mode=OneWay}" />
             </commtools:MenuItem>
         </commtools:Menu>
-        <GridView x:Name="VersionsArea"
-                  ItemsSource="{x:Bind Viewmodel.Versions, Mode=OneWay}"
-                  Grid.Row="1"
-                  SelectionMode="Single"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  IsItemClickEnabled="True"
-                  ItemClick="VersionsArea_ItemClick"
-                  HorizontalContentAlignment="Stretch">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="viewmodels:VersionModel">
-                    <Grid Width="200" Height="100" Background="#66FFFFFF">
-                        <TextBlock Text="{x:Bind VersionName, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+        <Frame x:Name="MainFrame" Grid.Row="1" />
     </Grid>
 </Page>

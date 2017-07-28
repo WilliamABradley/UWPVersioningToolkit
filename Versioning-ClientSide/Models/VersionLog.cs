@@ -14,10 +14,5 @@
         /// Special Versioning for the Store (Max 1500 Chars)
         /// </summary>
         public string StoreVersionSummary { get; set; }
-
-        public VersionLog Clone()
-        {
-            return (VersionLog)MemberwiseClone();
-        }
     }
 }

@@ -10,6 +10,10 @@ namespace UWPVersioningToolkit.ViewModels
 {
     public class VersionModel : INotifyPropertyChanged
     {
+        public VersionModel()
+        {
+        }
+
         public VersionModel(VersionLog Version)
         {
             this.Version = Version;
@@ -44,12 +48,12 @@ namespace UWPVersioningToolkit.ViewModels
 
         public bool HasNew
         {
-            get { return !string.IsNullOrWhiteSpace(Version.New); }
+            get { return !string.IsNullOrWhiteSpace(Version?.New); }
         }
 
         public bool HasFixed
         {
-            get { return !string.IsNullOrWhiteSpace(Version.Fixed); }
+            get { return !string.IsNullOrWhiteSpace(Version?.Fixed); }
         }
 
         public VersionLog Version { get; private set; }

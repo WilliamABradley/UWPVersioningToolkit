@@ -14,22 +14,24 @@
         <StackPanel x:Name="New"
                     Visibility="{x:Bind Viewmodel.HasNew}">
             <TextBlock Text="{x:Bind Strings.WhatsNew}"
-                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                        FontSize="20" />
             <commtools:MarkdownTextBlock
                 Text="{x:Bind Viewmodel.Version.New, Mode=OneWay}"
                 LinkClicked="MarkdownTextBlock_LinkClicked"
-                ImageResolving="MarkdownTextBlock_ImageResolving" />
+                ImageResolving="MarkdownTextBlock_ImageResolving"
+                ImageStretch="UniformToFill" />
         </StackPanel>
         <StackPanel x:Name="Fixed"
                     Visibility="{x:Bind Viewmodel.HasFixed}">
             <TextBlock Text="{x:Bind Strings.Fixed}"
-                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                        FontSize="20" />
             <commtools:MarkdownTextBlock
                 Text="{x:Bind Viewmodel.Version.Fixed, Mode=OneWay}"
                 LinkClicked="MarkdownTextBlock_LinkClicked"
-                ImageResolving="MarkdownTextBlock_ImageResolving" />
+                ImageResolving="MarkdownTextBlock_ImageResolving"
+                ImageStretch="UniformToFill" />
         </StackPanel>
     </StackPanel>
 </UserControl>

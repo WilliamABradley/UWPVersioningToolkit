@@ -40,7 +40,10 @@ namespace UWPVersioningToolkit.Views
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            Viewmodel.Revert();
+            if (e.SourcePageType != typeof(Editor) && e.NavigationMode == NavigationMode.Back && !Viewmodel.EditWaiter.Task.IsCompleted)
+            {
+                Viewmodel.Revert();
+            }
             base.OnNavigatedFrom(e);
         }
 

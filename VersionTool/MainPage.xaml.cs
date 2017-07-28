@@ -42,28 +42,23 @@ namespace UWPVersioningToolkit
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            Frame.Navigated += Frame_Navigated;
+            MainFrame.Navigate(typeof(VersionList));
+            MainFrame.Navigated += Frame_Navigated;
         }
 
         private void Nav_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            if (Frame.CanGoBack) Frame.GoBack();
+            if (MainFrame.CanGoBack) MainFrame.GoBack();
         }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
-            Nav.AppViewBackButtonVisibility = Frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            Nav.AppViewBackButtonVisibility = MainFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
         private void Viewmodel_EditRequested(object sender, VersionEditor e)
         {
-            Frame.Navigate(typeof(Editor), e);
-        }
-
-        private async void VersionsArea_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var model = e.ClickedItem as VersionModel;
-            var log = await Viewmodel.Edit(model);
+            MainFrame.Navigate(typeof(Editor), e);
         }
     }
 }

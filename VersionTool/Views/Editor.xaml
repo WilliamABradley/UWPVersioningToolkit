@@ -7,30 +7,35 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel>
-        <CommandBar OverflowButtonVisibility="Collapsed" VerticalContentAlignment="Center">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <CommandBar OverflowButtonVisibility="Collapsed"
+                    Content="{x:Bind Viewmodel.Model.VersionName, Mode=OneWay}"
+                    VerticalContentAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold">
             <AppBarButton Icon="Save" Click="Save_Click" />
-            <CommandBar.Content>
-                <TextBlock Text="{x:Bind Viewmodel.Model.VersionName, Mode=OneWay}"
-                           FontSize="20"
-                           FontWeight="Bold" TextLineBounds="Tight" />
-            </CommandBar.Content>
         </CommandBar>
-        <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <StackPanel>
-                    <TextBlock  Text="What's New" />
-                    <local:EditControl Text="{x:Bind Viewmodel.Version.New, Mode=TwoWay}" />
-                </StackPanel>
-                <StackPanel Grid.Row="1">
-                    <TextBlock  Text="Fixed" />
-                    <local:EditControl Text="{x:Bind Viewmodel.Version.Fixed, Mode=TwoWay}" />
-                </StackPanel>
+                <local:EditControl Header="What's New"
+                                   Text="{x:Bind Viewmodel.New, Mode=TwoWay}" />
+                <local:EditControl Header="Fixed"
+                                       Text="{x:Bind Viewmodel.Fixed, Mode=TwoWay}"
+                                       Grid.Row="1" />
+                <local:EditControl Header="Store Summary"
+                                   Text="{x:Bind Viewmodel.StoreSummary, Mode=TwoWay}"
+                                   RegularText="True"
+                                   Grid.Row="2" />
             </Grid>
         </ScrollViewer>
-    </StackPanel>
+    </Grid>
 </Page>

@@ -14,26 +14,29 @@ namespace UWPVersioningToolkit.ViewModels
         public VersionEditor(VersionModel Model)
         {
             this.Model = Model;
-            Version = Model?.Version?.Clone();
-            Original = Version?.Clone();
+            New = Model.Version.New;
+            Fixed = Model.Version.Fixed;
+            StoreSummary = Model.Version.StoreVersionSummary;
         }
+
+        public string New { get; set; }
+        public string Fixed { get; set; }
+        public string StoreSummary { get; set; }
 
         public void Save()
         {
-            Model.Update(Version);
-            EditWaiter.TrySetResult(Version);
+            Model.Version.New = New?.Remove(New.Length - 1);
+            Model.Version.Fixed = Fixed?.Remove(Fixed.Length - 1);
+            Model.Version.StoreVersionSummary = StoreSummary?.Remove(StoreSummary.Length - 1);
+            EditWaiter.TrySetResult(Model.Version);
         }
 
         public void Revert()
         {
-            Model.Update(Original);
-            EditWaiter.TrySetResult(Original);
+            EditWaiter.TrySetResult(null);
         }
 
         public VersionModel Model { get; }
-
-        public VersionLog Original { get; }
-        public VersionLog Version { get; }
         public TaskCompletionSource<VersionLog> EditWaiter { get; } = new TaskCompletionSource<VersionLog>();
     }
 }

@@ -14,19 +14,22 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <TextBlock  Text="{x:Bind Header, Mode=OneWay}" FontSize="18" />
         <toolbar:TextToolbar x:Name="Toolbar"
+                                Visibility="{x:Bind IsMarkdown, Mode=OneWay}"
                                 Editor="{x:Bind Editor}"
+                                Grid.Row="1"
                                 Background="#4C4F4F4F" />
-        <ScrollViewer Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-                <RichEditBox x:Name="Editor"
+            <RichEditBox x:Name="Editor"
                                  PlaceholderText="Enter Text Here"
                                  TextWrapping="Wrap"
                                  TextChanged="Editor_TextChanged"
@@ -35,23 +38,25 @@
                                  BorderBrush="{x:Null}"
                                  MinHeight="300" />
 
-                <Grid x:Name="MD"
+            <Grid x:Name="MD"
+                                 Visibility="{x:Bind IsMarkdown, Mode=OneWay}"
                                  Grid.Column="1"
                                  Padding="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Preview"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Preview"
                                  Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                                  Style="{StaticResource SubtitleTextBlockStyle}" />
+                <ScrollViewer Grid.Row="1">
                     <controls:MarkdownTextBlock x:Name="Previewer"
                                  Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                                  LinkClicked="Previewer_LinkClicked"
-                                 Grid.Row="1"
-                                 Canvas.ZIndex="99" ScrollViewer.IsVerticalRailEnabled="False" />
-                </Grid>
+                                 Canvas.ZIndex="99"
+                                 ImageStretch="UniformToFill" />
+                </ScrollViewer>
             </Grid>
-        </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>
