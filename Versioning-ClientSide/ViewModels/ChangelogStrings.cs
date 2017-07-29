@@ -2,6 +2,9 @@
 
 namespace UWPVersioningToolkit.ViewModels
 {
+    /// <summary>
+    /// Presentation Class for String Values, for Translation. Override this class, or Edit <see cref="VersionHelper.Strings"/> to change the Strings.
+    /// </summary>
     public class ChangelogStrings : DependencyObject
     {
         // Using a DependencyProperty as the backing store for Changelog.  This enables animation, styling, binding, etc...

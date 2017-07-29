@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace UWPVersioningToolkit.Views
 {
+    /// <summary>
+    /// A Dialog Prompt for Entering the new Version Number for a Version Log you would like to create.
+    /// </summary>
     public sealed partial class VersionCreation : ContentDialog
     {
         private VersionCreation()
@@ -13,6 +14,9 @@ namespace UWPVersioningToolkit.Views
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Creates a Version from a Dialog Prompt.
+        /// </summary>
         public static async Task<Version> CreateVersion()
         {
             var creator = new VersionCreation();

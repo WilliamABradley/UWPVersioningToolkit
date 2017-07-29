@@ -28,6 +28,5 @@
   <Library Name="Versioning_ClientSide">
 
   	<!-- add directives for your library here -->
-
   </Library>
 </Directives>

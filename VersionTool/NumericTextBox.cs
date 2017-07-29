@@ -7,6 +7,9 @@ using Windows.UI.Xaml.Input;
 
 namespace UWPVersioningToolkit.Controls
 {
+    /// <summary>
+    /// A Modified TextBox that only accepts Numeric Text.
+    /// </summary>
     public sealed class NumericTextBox : TextBox
     {
         public NumericTextBox()

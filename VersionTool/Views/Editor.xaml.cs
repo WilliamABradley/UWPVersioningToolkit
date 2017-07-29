@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Threading.Tasks;
 using UWPVersioningToolkit.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace UWPVersioningToolkit.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The Editor page for Editing and Creating Version Logs.
     /// </summary>
     public sealed partial class Editor : Page
     {
+        /// <summary>
+        /// Editor Viewmodel Instance.
+        /// </summary>
         public VersionEditor Viewmodel { get; set; }
 
         public Editor()
@@ -36,6 +36,9 @@ namespace UWPVersioningToolkit.Views
             base.OnNavigatedFrom(e);
         }
 
+        /// <summary>
+        /// Saves the Updated Version Log.
+        /// </summary>
         private async void Save_Click(object sender, RoutedEventArgs e)
         {
             if (Summary.OverLimit)

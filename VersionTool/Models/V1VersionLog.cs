@@ -1,5 +1,8 @@
 ﻿namespace UWPVersioningToolkit.Models
 {
+    /// <summary>
+    /// V1 VersionLog for Parsing and Update Reasons
+    /// </summary>
     public class V1VersionLog
     {
         public int Major { get; set; }

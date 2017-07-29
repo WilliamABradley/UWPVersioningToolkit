@@ -1,16 +1,14 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using UWPVersioningToolkit.ViewModels;
+﻿using UWPVersioningToolkit.ViewModels;
 using UWPVersioningToolkit.Views;
 using Windows.UI.Core;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace UWPVersioningToolkit
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The Main Page in Charge of Navigation
     /// </summary>
     public sealed partial class MainPage : Page
     {

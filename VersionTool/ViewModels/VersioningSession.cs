@@ -5,29 +5,38 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using UWPVersioningToolkit.Dialog;
 using UWPVersioningToolkit.Models;
 using UWPVersioningToolkit.Views;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPVersioningToolkit.ViewModels
 {
+    /// <summary>
+    /// Handles the Current Session of Changelog Data, where it will be saved, and the ability to Create New or Load other Files.
+    /// </summary>
     public class VersioningSession : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Current Session, Singleton.
+        /// </summary>
         public static VersioningSession Current = new VersioningSession();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        /// <summary>
+        /// This Session should be Instatiated once, to allow for x:binding.
+        /// </summary>
         private VersioningSession()
         {
             Current = this;
             Versions.CollectionChanged += delegate { UpdateProperties(); };
         }
 
+        /// <summary>
+        /// Creates a new Document for Changelog Information.
+        /// </summary>
+        /// <returns></returns>
         public VersioningSession Create()
         {
             Current.Versions.Clear();
@@ -35,28 +44,10 @@ namespace UWPVersioningToolkit.ViewModels
             return Current;
         }
 
-        public async void AddVersion()
-        {
-            var version = await VersionCreation.CreateVersion();
-            if (version != null)
-            {
-                var model = new VersionModel(version);
-                //launch editor
-                var log = await Edit(model);
-                if (log != null)
-                {
-                    Versions.Insert(0, model);
-                }
-            }
-        }
-
-        public async Task<VersionLog> Edit(VersionModel Model)
-        {
-            var editor = new VersionEditor(Model);
-            EditRequested?.Invoke(this, editor);
-            return await editor.EditWaiter.Task;
-        }
-
+        /// <summary>
+        /// Opens the File Picker to Load a Changelog File.
+        /// </summary>
+        /// <returns></returns>
         public async Task<VersioningSession> Load()
         {
             var picker = new FileOpenPicker();
@@ -92,6 +83,19 @@ namespace UWPVersioningToolkit.ViewModels
             return Current;
         }
 
+        /// <summary>
+        /// Converts Plain Text To Markdown Formatting.
+        /// </summary>
+        private string ConvertToMarkdown(string raw)
+        {
+            return raw.Insert(0, "\r").Replace("\r", "\r\r").Replace("\r-", "\r- ").Remove(0, 2).Trim();
+        }
+
+        /// <summary>
+        /// Upgrades old Changelog Style to new Style.
+        /// </summary>
+        /// <param name="OldLogs"></param>
+        /// <returns></returns>
         public List<VersionLog> Upgrade(List<V1VersionLog> OldLogs)
         {
             List<VersionLog> NewLogs = new List<VersionLog>();
@@ -104,8 +108,12 @@ namespace UWPVersioningToolkit.ViewModels
                     var text = log.Log;
                     //hopeful
                     var parts = text.Split(new string[] { "Fixed:\r" }, StringSplitOptions.RemoveEmptyEntries);
-                    newLog.New = CleanForMarkdown(parts[0]);
-                    newLog.Fixed = CleanForMarkdown(parts[1]);
+                    newLog.New = ConvertToMarkdown(parts[0]);
+                    try
+                    {
+                        newLog.Fixed = ConvertToMarkdown(parts[1]);
+                    }
+                    catch { }
                 }
                 catch { }
 
@@ -114,11 +122,37 @@ namespace UWPVersioningToolkit.ViewModels
             return NewLogs;
         }
 
-        private string CleanForMarkdown(string raw)
+        /// <summary>
+        /// Creates a new Version Log, and opens the Editor.
+        /// </summary>
+        public async void AddVersion()
         {
-            return raw.Insert(0, "\r").Replace("\r", "\r\r").Replace("\r-", "\r- ").Remove(0, 2).Trim();
+            var version = await VersionCreation.CreateVersion();
+            if (version != null)
+            {
+                var model = new VersionModel(version);
+                //launch editor
+                var log = await Edit(model);
+                if (log != null)
+                {
+                    Versions.Insert(0, model);
+                }
+            }
         }
 
+        /// <summary>
+        /// Requests the Editor to begin Editing a Version Log.
+        /// </summary>
+        public async Task<VersionLog> Edit(VersionModel Model)
+        {
+            var editor = new VersionEditor(Model);
+            EditRequested?.Invoke(this, editor);
+            return await editor.EditWaiter.Task;
+        }
+
+        /// <summary>
+        /// Saves Changelog Modifications to File, or Creates a File to Save the New Changelog.
+        /// </summary>
         public async Task Save()
         {
             try
@@ -131,10 +165,7 @@ namespace UWPVersioningToolkit.ViewModels
                         SuggestedFileName = "Changelog"
                     };
                     Picker.FileTypeChoices.Add("JSON", new string[] { ".json" });
-                    await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        ChangelogFile = await Picker.PickSaveFileAsync();
-                    });
+                    ChangelogFile = await Picker.PickSaveFileAsync();
                 }
                 await FileIO.WriteTextAsync(ChangelogFile, GetJson());
             }
@@ -144,12 +175,19 @@ namespace UWPVersioningToolkit.ViewModels
             }
         }
 
+        /// <summary>
+        /// Converts the Current Session to JSON.
+        /// </summary>
+        /// <returns></returns>
         private string GetJson()
         {
             var raw = Versions.Select(item => item.Version).OrderByDescending(k => k.Major).ThenByDescending(k => k.Minor).ThenByDescending(k => k.Build).ThenByDescending(k => k.Revision);
             return JsonConvert.SerializeObject(raw, Formatting.Indented);
         }
 
+        /// <summary>
+        /// Displays the Changelog Data in a Content Dialog.
+        /// </summary>
         public async void DisplayJson()
         {
             var viewer = new ScrollViewer()
@@ -166,6 +204,9 @@ namespace UWPVersioningToolkit.ViewModels
             await new ContentDialog { Title = "Processed Json Changelog", Content = viewer, PrimaryButtonText = "OK" }.ShowAsync();
         }
 
+        /// <summary>
+        /// Allows you to Preview the Changelog, using the Client Side UI.
+        /// </summary>
         public void Preview()
         {
             var changelog = new Changelog
@@ -177,19 +218,37 @@ namespace UWPVersioningToolkit.ViewModels
             VersionHelper.ShowChangelog(changelog);
         }
 
+        /// <summary>
+        /// Updates the UI about whether there is Data to Save or Preview or not.
+        /// </summary>
         private void UpdateProperties()
         {
             Current.PropertyChanged?.Invoke(Current, new PropertyChangedEventArgs(nameof(Current.HasData)));
         }
 
+        /// <summary>
+        /// Check to see if there is any Version Information.
+        /// </summary>
         public bool HasData
         {
             get { return Versions.Any(); }
         }
 
+        /// <summary>
+        /// The Versions List.
+        /// </summary>
         public ObservableCollection<VersionModel> Versions { get; } = new ObservableCollection<VersionModel>();
+
+        /// <summary>
+        /// The Current Document being Edited in this Session, will be null if Created New.
+        /// </summary>
         public StorageFile ChangelogFile { get; private set; }
 
+        /// <summary>
+        /// Request to the UI to Navigate to the Editor.
+        /// </summary>
         public event EventHandler<VersionEditor> EditRequested;
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

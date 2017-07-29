@@ -111,8 +111,9 @@
     </Compile>
     <Compile Include="Models\ChangeDialogHandler.cs" />
     <Compile Include="Models\Changelog.cs" />
+    <Compile Include="Models\Source\IVersionToolkitService.cs" />
+    <Compile Include="Models\Source\VersionToolkitDefaultSource.cs" />
     <Compile Include="Models\VersionCheck.cs" />
-    <Compile Include="Models\V1VersionLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VersionHelper.cs" />
     <Compile Include="Models\VersionLog.cs" />
