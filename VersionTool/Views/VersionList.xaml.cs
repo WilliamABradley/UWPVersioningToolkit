@@ -45,6 +45,12 @@ namespace UWPVersioningToolkit.Views
             GetSummary.Click += delegate { CopyStoreSummary(model); };
             menu.Items.Add(GetSummary);
 
+            menu.Items.Add(new MenuFlyoutSeparator());
+
+            var delete = new MenuFlyoutItem { Text = "Delete" };
+            delete.Click += delegate { Viewmodel.Versions.Remove(model); };
+            menu.Items.Add(delete);
+
             menu.ShowAt(source, e.GetPosition(source));
         }
 
