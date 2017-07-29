@@ -18,12 +18,12 @@
                 <TextBlock x:Name="CurrentVersionTitle"
                            Style="{StaticResource SubheaderTextBlockStyle}"
                            HorizontalAlignment="Left" />
-                <local:VersionLogUI Viewmodel="{x:Bind CurrentVersion, Mode=OneWay}" />
+                <local:VersionLogUI Viewmodel="{x:Bind Changelog.CurrentVersion, Mode=OneWay}" />
                 <commtools:Expander Header="{x:Bind Strings.OlderVersions}"
                                     Visibility="{x:Bind HasOlderVersions, Mode=OneWay}"
                                     HorizontalContentAlignment="Stretch"
                                     HorizontalAlignment="Stretch">
-                    <ItemsControl ItemsSource="{x:Bind OlderVersions, Mode=OneWay}" Margin="10,0">
+                    <ItemsControl ItemsSource="{x:Bind Changelog.OlderVersions, Mode=OneWay}" Margin="10,0">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel VerticalAlignment="Stretch" />

@@ -31,9 +31,11 @@
                 <local:EditControl Header="Fixed"
                                        Text="{x:Bind Viewmodel.Fixed, Mode=TwoWay}"
                                        Grid.Row="1" />
-                <local:EditControl Header="Store Summary"
+                <local:EditControl x:Name="Summary" Header="Store Summary"
                                    Text="{x:Bind Viewmodel.StoreSummary, Mode=TwoWay}"
-                                   RegularText="True"
+                                   IsStoreSummary="True"
+                                   AutomaticGeneration="{x:Bind Viewmodel.AutoGenerateSummary, Mode=TwoWay}"
+                                   MaxLength="1500"
                                    Grid.Row="2" />
             </Grid>
         </ScrollViewer>

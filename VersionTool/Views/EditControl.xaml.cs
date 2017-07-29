@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -7,7 +9,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPVersioningToolkit.Views
 {
-    public sealed partial class EditControl : UserControl
+    public sealed partial class EditControl : UserControl, INotifyPropertyChanged
     {
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextProperty =
@@ -17,9 +19,33 @@ namespace UWPVersioningToolkit.Views
         public static readonly DependencyProperty HeaderProperty =
             DependencyProperty.Register(nameof(Header), typeof(string), typeof(EditControl), new PropertyMetadata(""));
 
+        // Using a DependencyProperty as the backing store for MaxLength.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaxLengthProperty =
+            DependencyProperty.Register(nameof(MaxLength), typeof(int), typeof(EditControl), new PropertyMetadata(-1));
+
+        // Using a DependencyProperty as the backing store for AutomaticGeneration.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AutomaticGenerationProperty =
+            DependencyProperty.Register(nameof(AutomaticGeneration), typeof(bool), typeof(EditControl), new PropertyMetadata(true));
+
         public EditControl()
         {
             this.InitializeComponent();
+            this.Loaded += EditControl_Loaded;
+            Editor.KeyDown += Editor_KeyDown;
+        }
+
+        private void Editor_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (AutomaticGeneration)
+            {
+                AutomaticGeneration = false;
+            }
+        }
+
+        private async void EditControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(120);
+            if (string.IsNullOrWhiteSpace(Text)) AutomaticGeneration = true;
         }
 
         private static void TextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
@@ -39,8 +65,12 @@ namespace UWPVersioningToolkit.Views
             Editor.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string doc);
             InternalSet = true;
             Text = doc;
+            Length = doc.Trim().Length;
             InternalSet = false;
-            if (!RegularText) Previewer.Text = doc;
+            if (!IsStoreSummary) Previewer.Text = doc;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Limiter)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OverLimit)));
         }
 
         private async void Previewer_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
@@ -52,8 +82,40 @@ namespace UWPVersioningToolkit.Views
             catch { }
         }
 
-        public bool RegularText { get; set; }
-        public bool IsMarkdown { get { return !RegularText; } }
+        public int Length { get; private set; }
+
+        public int MaxLength
+        {
+            get { return (int)GetValue(MaxLengthProperty); }
+            set { SetValue(MaxLengthProperty, value); }
+        }
+
+        public string Limiter
+        {
+            get
+            {
+                return $"{Length}/{MaxLength}";
+            }
+        }
+
+        public bool HasLimit
+        {
+            get { return MaxLength > -1; }
+        }
+
+        public bool OverLimit
+        {
+            get { return Length > MaxLength; }
+        }
+
+        public bool AutomaticGeneration
+        {
+            get { return (bool)GetValue(AutomaticGenerationProperty); }
+            set { SetValue(AutomaticGenerationProperty, value); }
+        }
+
+        public bool IsStoreSummary { get; set; }
+        public bool IsMarkdown { get { return !IsStoreSummary; } }
 
         public string Text
         {
@@ -68,5 +130,7 @@ namespace UWPVersioningToolkit.Views
         }
 
         private bool InternalSet = false;
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

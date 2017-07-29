@@ -1,4 +1,6 @@
-﻿using UWPVersioningToolkit.ViewModels;
+﻿using System;
+using System.Threading.Tasks;
+using UWPVersioningToolkit.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -34,8 +36,14 @@ namespace UWPVersioningToolkit.Views
             base.OnNavigatedFrom(e);
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private async void Save_Click(object sender, RoutedEventArgs e)
         {
+            if (Summary.OverLimit)
+            {
+                var result = await new ContentDialog { Title = "Warning", Content = "The Store Summary is currently over the 1500 Character Limit, do you want to Continue?", PrimaryButtonText = "OK", SecondaryButtonText = "Cancel" }.ShowAsync();
+                if (result != ContentDialogResult.Primary) return;
+            }
+
             Viewmodel.Save();
             Frame.GoBack();
         }

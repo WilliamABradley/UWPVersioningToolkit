@@ -21,6 +21,7 @@ namespace UWPVersioningToolkit
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             VersionHelper.CatchExceptions = true;
+            VersionHelper.AlertMissingVersionLog = false;
         }
 
         /// <summary>

@@ -110,6 +110,7 @@
       <DependentUpon>VersionLogUI.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\ChangeDialogHandler.cs" />
+    <Compile Include="Models\Changelog.cs" />
     <Compile Include="Models\VersionCheck.cs" />
     <Compile Include="Models\V1VersionLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

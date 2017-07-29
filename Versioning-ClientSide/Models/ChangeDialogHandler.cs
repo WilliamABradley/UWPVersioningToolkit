@@ -2,17 +2,19 @@
 using UWPVersioningToolkit.Dialog;
 using Windows.System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml.Controls;
+using System.Threading.Tasks;
 
 namespace UWPVersioningToolkit.Models
 {
     public class ChangeDialogHandler
     {
-        public virtual async void ShowDialog(ChangeDialog Dialog)
+        public virtual async Task ShowDialog(ContentDialog Dialog)
         {
             await Dialog.ShowAsync();
         }
 
-        public virtual void OnDialogClosing(ChangeDialog Dialog)
+        public virtual void OnDialogClosing(ContentDialog Dialog)
         {
         }
 

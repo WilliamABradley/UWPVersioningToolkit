@@ -12,12 +12,34 @@
     d:DesignWidth="400">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="TooLong">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind OverLimit, Mode=OneWay}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LimitText.Foreground" Value="Red" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock  Text="{x:Bind Header, Mode=OneWay}" FontSize="18" />
+        <StackPanel>
+            <TextBlock Text="{x:Bind Header, Mode=OneWay}" FontSize="18" />
+            <CheckBox Content="Enable Automatic Generation"
+                      IsChecked="{x:Bind AutomaticGeneration, Mode=TwoWay}"
+                          Visibility="{x:Bind IsStoreSummary, Mode=OneWay}" />
+            <TextBlock x:Name="LimitText"
+                Text="{x:Bind Limiter, Mode=OneWay}"
+                Visibility="{x:Bind HasLimit, Mode=OneWay}" />
+        </StackPanel>
+
         <toolbar:TextToolbar x:Name="Toolbar"
                                 Visibility="{x:Bind IsMarkdown, Mode=OneWay}"
                                 Editor="{x:Bind Editor}"

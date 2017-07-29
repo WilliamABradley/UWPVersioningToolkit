@@ -116,7 +116,7 @@ namespace UWPVersioningToolkit.ViewModels
 
         private string CleanForMarkdown(string raw)
         {
-            return raw.Insert(0, "\r").Replace("\r", "\r\r").Replace("\r-", "\r- ").Remove(0, 2);
+            return raw.Insert(0, "\r").Replace("\r", "\r\r").Replace("\r-", "\r- ").Remove(0, 2).Trim();
         }
 
         public async Task Save()
@@ -166,10 +166,15 @@ namespace UWPVersioningToolkit.ViewModels
             await new ContentDialog { Title = "Processed Json Changelog", Content = viewer, PrimaryButtonText = "OK" }.ShowAsync();
         }
 
-        public async void Preview()
+        public void Preview()
         {
-            var dialog = new ChangeDialog(Versions.ToList());
-            await dialog.ShowAsync();
+            var changelog = new Changelog
+            {
+                CurrentVersion = Versions.First(),
+                OlderVersions = Versions.Skip(1).ToList()
+            };
+
+            VersionHelper.ShowChangelog(changelog);
         }
 
         private void UpdateProperties()
