@@ -1,10 +1,17 @@
-# JsonVersioningGenerator
-A Rudimentary Generator for Creating In-App Changelogs.
+# UWP Versioning Toolkit
+A MarkDown based Versioning Toolkit, for creating Rich App Changelogs.
+This Toolkit allows you to create a Changelog File, as well as a Client-Side Library to Load and Present the Changelog, when there is a new version.
 
-*Requires Compilation and Deployment.*
+![Example Image](docs/Images/ChangelogPreview.PNG)
+
+## Get the Version Tool
+Store Link: Coming Soon
+AppX Link: Coming Soon
 
 ## Recommended Usage
-Copy the VersionLog.cs file to your App, and then when fetching the Changelog, use the Versioning Generator to Create a new Json File to the root directory of your App, and then call this to get an ordered and detailed Changelog. (Allows for Rich Text Formatting, it is recommended to use RichTextBlocks to present result to make the most out of The Presentation features.
-```C#
-var changelogs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VersionLog>>(await Windows.Storage.FileIO.ReadTextAsync(await Package.Current.InstalledLocation.GetFileAsync("Changelog.json"))).OrderByDescending(v => v.Major).ThenByDescending(v => v.Minor).ThenByDescending(v => v.Build).ThenByDescending(v => v.Revision); 
-```
+1. Create a Changelog.json File using the Version Tool, populated with at least one Changelog.
+2. Copy this file into your Main App Directory, which can be achieved with Visual Studio by dragging the file onto the Project Header.
+3. Ensure that the `Build Action` for the file is set to `Content`.
+Optional: Override the `ChangeDialogHandler` to handle ChangeDialog events, Replace the strings in `ChangelogStrings` with Mutli Lingual Strings.
+4. Some time during the Startup of your app, call `VersionHelper.CheckForUpdates()` or `VersionHelper.CheckForUpdatesAsync()`, this will ensure that the Changelog hasn't been checked, and that it is a new Version, and then Show the Change Dialog.
+Optional: Add a button to your App Settings to open the Changelog (Using `VersionHelper.ShowChangelog`)

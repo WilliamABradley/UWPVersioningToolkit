@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="UWPVersioningToolkit.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPVersioningToolkit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:UWPVersioningToolkit.ViewModels"
+    xmlns:models="using:UWPVersioningToolkit.Models"
+    xmlns:commtools="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <commtools:Menu Background="{ThemeResource ContentDialogBackground}">
+            <commtools:MenuItem Header="File">
+                <MenuFlyoutItem Text="New"
+                                Click="{x:Bind Viewmodel.Create}" />
+                <MenuFlyoutItem Text="Open"
+                                Click="{x:Bind Viewmodel.Load}" />
+                <MenuFlyoutItem Text="Save"
+                                Click="{x:Bind Viewmodel.Save}"
+                                IsEnabled="{x:Bind Viewmodel.HasData, Mode=OneWay}" />
+            </commtools:MenuItem>
+            <commtools:MenuItem Header="Versions">
+                <MenuFlyoutItem Text="Add"
+                                Click="{x:Bind Viewmodel.AddVersion}" />
+                <MenuFlyoutItem Text="Get Json"
+                                Click="{x:Bind Viewmodel.DisplayJson}" />
+                <MenuFlyoutItem Text="Preview"
+                                Click="{x:Bind Viewmodel.Preview}"
+                                IsEnabled="{x:Bind Viewmodel.HasData, Mode=OneWay}" />
+            </commtools:MenuItem>
+        </commtools:Menu>
+        <Frame x:Name="MainFrame" Grid.Row="1" />
+    </Grid>
+</Page>
