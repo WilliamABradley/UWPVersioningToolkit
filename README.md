@@ -6,7 +6,11 @@ This Toolkit allows you to create a Changelog File, as well as a Client-Side Lib
 
 ## Get the Version Tool
 Store Link: Coming Soon
+
 AppX Link: Coming Soon
+
+## Get the Client-Side SDK
+NuGet: [Link](https://www.nuget.org/packages/UWPVersioningToolkit.ClientSide)
 
 ## Recommended Usage
 1. Create a Changelog.json File using the Version Tool, populated with at least one Changelog.
