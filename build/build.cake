@@ -20,6 +20,8 @@ var OutputDir = ".\\bin";
 var ProjectNuspec = ".\\Versioning-ClientSide.nuspec";
 var PackgeOutput = ".\\nupkg";
 
+GitVersion Version = null;
+
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -51,9 +53,10 @@ Task("VersionUpdate")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    GitVersion(new GitVersionSettings {
+    Version = GitVersion(new GitVersionSettings {
         UpdateAssemblyInfo = true
     });
+    Information("New Version is: " + Version.NuGetVersionV2);
 });
 
 Task("Build")
@@ -86,6 +89,10 @@ Task("Nuget-Package")
             { "binaries", OutputDir }
         }
     };
+
+    if(Version != null){
+        nuGetPackSettings.Version = Version.NuGetVersionV2;
+    }
 
     NuGetPack(ProjectNuspec, nuGetPackSettings);
 });
