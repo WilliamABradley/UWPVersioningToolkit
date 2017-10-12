@@ -47,8 +47,17 @@ Task("Restore-NuGet-Packages")
     NuGetRestore(Project);
 });
 
-Task("Build")
+Task("VersionUpdate")
     .IsDependentOn("Restore-NuGet-Packages")
+    .Does(() =>
+{
+    GitVersion(new GitVersionSettings {
+        UpdateAssemblyInfo = true
+    });
+});
+
+Task("Build")
+    .IsDependentOn("VersionUpdate")
     .Does(() =>
 {
     Information("\nBuilding Project");
