@@ -66,6 +66,10 @@ namespace UWPVersioningToolkit
                         Content = $"Current Changelog Version ({ChangeVersion.ToString()}) does not match App Version ({appVersion.ToString()}).\nEnsure you update the Changelog before releasing the Update.\nYou can disable this Warning via VersionHelper.AlertMissingVersionLog",
                         PrimaryButtonText = "OK"
                     };
+                    dlg.Closing += delegate
+                    {
+                        DialogHandler.OnDialogClosing(dlg);
+                    };
                     await DialogHandler.ShowDialog(dlg);
                 }
             }
