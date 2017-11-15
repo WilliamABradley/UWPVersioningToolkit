@@ -18,7 +18,7 @@
                   HorizontalContentAlignment="Stretch">
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="viewmodels:VersionModel">
-                <Grid Width="200" Height="100" Background="#33A3A3A3" RightTapped="Version_RightTapped">
+                <Grid Width="200" Height="100" Background="{ThemeResource MenuBackground}" RightTapped="Version_RightTapped">
                     <TextBlock Text="{x:Bind VersionName, Mode=OneWay}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"

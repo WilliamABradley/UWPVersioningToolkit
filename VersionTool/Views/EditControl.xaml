@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:toolbar="using:TextToolbarTemp"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -40,8 +39,9 @@
                 Visibility="{x:Bind HasLimit, Mode=OneWay}" />
         </StackPanel>
 
-        <toolbar:TextToolbar x:Name="Toolbar"
+        <controls:TextToolbar x:Name="Toolbar"
                                 Visibility="{x:Bind IsMarkdown, Mode=OneWay}"
+                                Format="MarkDown"
                                 Editor="{x:Bind Editor}"
                                 Grid.Row="1"
                                 Background="#4C4F4F4F" />

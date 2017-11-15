@@ -10,12 +10,12 @@
     xmlns:commtools="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <commtools:Menu Background="{ThemeResource ContentDialogBackground}">
+        <commtools:Menu Background="{ThemeResource MenuBackground}">
             <commtools:MenuItem Header="File">
                 <MenuFlyoutItem Text="New"
                                 Click="{x:Bind Viewmodel.Create}" />

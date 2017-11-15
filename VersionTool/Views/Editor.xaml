@@ -7,19 +7,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <CommandBar OverflowButtonVisibility="Collapsed"
+                    Margin="-20,-20,-20,0"
                     Content="{x:Bind Viewmodel.Model.VersionName, Mode=OneWay}"
                     VerticalContentAlignment="Center"
+                    Background="{ThemeResource MenuBackground}"
                     FontSize="20"
                     FontWeight="Bold">
             <AppBarButton Icon="Save" Click="Save_Click" />
         </CommandBar>
-        <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Grid.Row="1">
+        <ScrollViewer Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />

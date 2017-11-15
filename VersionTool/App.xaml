@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///TextToolbar/TextToolbar.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/Themes.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

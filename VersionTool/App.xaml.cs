@@ -1,4 +1,5 @@
 ﻿using System;
+using UWPVersioningToolkit.Styles;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -31,6 +32,7 @@ namespace UWPVersioningToolkit
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            ThemeInjector.InjectThemeResources(Current.Resources.MergedDictionaries[0]);
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

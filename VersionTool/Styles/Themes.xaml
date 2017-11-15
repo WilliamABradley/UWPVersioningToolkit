@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="PageBackground"
+                             Color="#FFFFFFFF" />
+            <SolidColorBrush x:Key="MenuBackground"
+                             Color="#4C4F4F4F" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="PageBackground"
+                             Color="#FF000000" />
+            <SolidColorBrush x:Key="MenuBackground"
+                             Color="#4C4F4F4F" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
